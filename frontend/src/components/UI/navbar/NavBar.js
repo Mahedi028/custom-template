@@ -55,7 +55,7 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
           />
         )}
         <div className="w-full h-full grid md:grid-cols-12  md:flex-col justify-center md:items-center items-start">
-          <div className="col-span-1 md:col-span-2">
+          <div className="col-span-1 md:col-span-2 flex flex-col justify-center items-center">
             <div className="w-[100px] h-[80px] md:m-0 m-auto flex md:justify-start justify-center items-center">
               {siteLogo && (
                 <img src={siteLogo} className="w-full h-full object-cover" />
@@ -67,7 +67,7 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
               )}
             </div>
           </div>
-          <div className="col-span-1 md:col-span-8">
+          <div className="col-span-1 md:col-span-8 flex flex-col justify-center items-center">
             <ul
               className={
                 showMenu
@@ -80,7 +80,7 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
               <NavItem name="Contact us" link="/contact-us" />
             </ul>
           </div>
-          <div className="col-span-1 md:col-span-2">
+          <div className="col-span-1 md:col-span-2 flex flex-col justify-center items-center">
             <ul
               className={
                 showMenu
