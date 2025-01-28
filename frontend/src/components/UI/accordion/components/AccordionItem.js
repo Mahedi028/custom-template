@@ -1,6 +1,10 @@
 import React from "react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
+import { MdArrowDropDown } from "react-icons/md";
+import { MdArrowDropUp } from "react-icons/md";
+
+
 const AccordionItem = ({
   title,
   index,
@@ -40,12 +44,12 @@ const AccordionItem = ({
               </div>
             ) : null}
             {isOpen ? (
-              <IoIosArrowUp
-                className={!collapsed ? "text-2xl cursor-pointer" : "hidden"}
+              <MdArrowDropUp
+                className={!collapsed ? "text-4xl cursor-pointer" : "hidden"}
               />
             ) : (
-              <IoIosArrowDown
-                className={!collapsed ? "text-2xl cursor-pointer" : "hidden"}
+              <MdArrowDropDown
+                className={!collapsed ? "text-4xl cursor-pointer" : "hidden"}
               />
             )}
           </div>
