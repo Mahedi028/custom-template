@@ -1,8 +1,9 @@
+import LoginForm from '@/components/auth/LoginForm'
 import React from 'react'
 
 const AdminLoginPage = () => {
   return (
-    <div>AdminLoginPage</div>
+    <LoginForm title="Admin Login"/>
   )
 }
 

@@ -7,7 +7,7 @@ use App\Models\Network;
 use Illuminate\Support\Carbon;
 use App\Interfaces\AuthInterface;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Provider;
 
 class AuthRepository implements AuthInterface
 {
@@ -99,6 +99,12 @@ class AuthRepository implements AuthInterface
     {
         return User::insertGetId($data);
     }//end of method
+
+    public function socialUser($user_id,$provider)
+    {
+        return Provider::where('user_id',$user_id)->where('provider',$provider)->first();
+    }//end of method
+
 
 
 }
