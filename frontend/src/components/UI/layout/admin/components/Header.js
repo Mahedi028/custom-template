@@ -13,15 +13,18 @@ const Header = ({ onToggleMenu, logo }) => {
   return (
     <header className="w-full h-[60px] grid grid-cols-12 bg-white justify-around items-center border-b-[2px] border-stone-300">
       <div className="col-span-2 flex justify-center items-center">
-        {logo?<img src={logo} />:<h3 className="uppercase text-indigo-800 text-2xl font-semibold">E-Courier</h3>}
+        {logo ? (
+          <img src={logo} />
+        ) : (
+          <h3 className="uppercase text-indigo-800 text-2xl font-semibold">
+            E-Courier
+          </h3>
+        )}
       </div>
       <div className="flex justify-start items-center">
         <FaBars className="text-2xl cursor-pointer" onClick={onToggleMenu} />
       </div>
-      <div className="col-span-5 bg-gray2 flex justify-center items-center rounded-2xl">
-        <input className="w-4/5 bg-gray2 p-3  focus:outline-none" />
-        <CiSearch className="text-2xl text-black text-center font-bold" />
-      </div>
+      <SearchBar />
       <div className="col-span-4 w-full flex justify-center items-center">
         <div className="w-4/5 flex justify-end items-center">
           <div className="w-[45px] h-[45px] border-2 border-slate-700 rounded-full flex justify-center items-center mx-2">

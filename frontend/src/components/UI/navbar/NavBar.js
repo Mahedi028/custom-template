@@ -9,7 +9,7 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
   const handleShowMenu = () => setShowMenu((showMenu) => !showMenu);
   //mobile menu class
   const mobileHeaderClass =
-    "z-20 w-full h-screen bg-gray-400 flex flex-col justify-center items-center";
+    "z-20 w-full h-screen bg-gray-200 flex flex-col justify-center items-center";
   const mobileNavClass =
     "w-full h-5/6 text-textColor flex flex-col justify-around items-center";
   const mobileMenuClass =
@@ -20,7 +20,7 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
       className={
         showMenu
           ? mobileHeaderClass
-          : "w-full h-[80px] bg-gray-400 flex justify-center items-center"
+          : "w-full h-[80px] bg-gray-200 flex justify-center items-center"
       }
     >
       <nav
@@ -67,7 +67,7 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
               )}
             </div>
           </div>
-          <div className="col-span-1 md:col-span-8 flex flex-col justify-center items-center">
+          <div className="col-span-1 md:col-span-7 flex flex-col justify-center items-center">
             <ul
               className={
                 showMenu
@@ -80,7 +80,7 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
               <NavItem name="Contact us" link="/contact-us" />
             </ul>
           </div>
-          <div className="col-span-1 md:col-span-2 flex flex-col justify-center items-center">
+          <div className="col-span-1 md:col-span-3 flex flex-col justify-center items-center">
             <ul
               className={
                 showMenu
@@ -88,8 +88,14 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
                   : "w-11/12 lg:flex justify-around items-center hidden"
               }
             >
-              <NavItem name="Sign Up" link="/register" />
-              <NavItem name="Sign In" link="/login" />
+              {/* <NavItem name="Sign Up" link="/register" /> */}
+              {/* <NavItem name="Sign In" link="/login" /> */}
+              <a href="/register">
+                <Button text="Sign Up" />
+              </a>
+              <a href="/login">
+                <Button text="Sign In" />
+              </a>
             </ul>
           </div>
         </div>

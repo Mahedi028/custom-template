@@ -11,7 +11,7 @@ const Button = ({
     <button
     type={type}
     onClick={onClick}
-    className={className?className:'bg-btnBackground text-textColor border-4 border-btnOutline px-4 py-4 font-title rounded-full text-xl cursor-pointer uppercase font-semibold hover:px-7 transition:px duration-150 hover:shadow-customShadow my-2'}
+    className={className?className:'bg-black text-white border-4 border-btnOutline p-4  font-title rounded-full text-xl cursor-pointer uppercase font-semibold hover:px-7 transition:px duration-150 hover:shadow-customShadow my-2'}
     >
     {children && children}
     {text && text}
