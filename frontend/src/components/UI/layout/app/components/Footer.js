@@ -6,7 +6,7 @@ import { FaInstagram } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="w-full bg-gray-200 flex flex-col justify-center items-center mt-1">
-      <div className="w-4/5 grid grid-cols-4 justify-start items-center p-2">
+      <div className="w-4/5 grid md:grid-cols-4 grid-cols-1 md:justify-start justify-center items-center p-2">
         <div className="w-full flex flex-col justify-center items-start gap-3">
           <div className="w-[80px] h-[50px] ">
             <img src="/assets/logo/logo.png" className="w-full h-full" />

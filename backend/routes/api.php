@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\User\UserController;
-
+use App\Http\Controllers\Api\Auth\SocialLoginController;
 
 
 Route::prefix('v1')->group(function () {
@@ -34,6 +34,10 @@ Route::prefix('v1')->group(function () {
     ])
         ->name('reset.password')
         ->middleware('signed');
+    //social login
+    Route::get('/login/{provider}/redirect', [SocialLoginController::class, 'redirectToProvider']);
+    Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback']);
+
 
     //------------------------------Guest Routes  Ends------------------------------------------//
 
@@ -54,4 +58,14 @@ Route::prefix('v1')->group(function () {
         Route::put('/user/{id}/update', [UserController::class, 'updateUser']);
     });
     //------------------------------Authenticated Routes End--------------------------------------------//
+
+    //-----------------------------Admin guest route start--------------------------------------------//
+    Route::prefix('admin')->group(function () {
+        //-----register api
+        Route::post('/register', [RegisterController::class, 'Register']);
+        //-----login api
+        Route::post('/login', [LoginController::class, 'Login']);
+    });
+    //-----------------------------Admin guest route start--------------------------------------------//
+
 });

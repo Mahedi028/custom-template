@@ -12,12 +12,19 @@ const InputField = ({
   cols,
   max,
   min,
+  login,
   errorMessage,
 }) => {
   switch (type) {
     case "text":
       return (
-        <div className={inputContainerClassName?inputContainerClassName:"w-full flex flex-col justify-center items-center"}>
+        <div
+          className={
+            inputContainerClassName
+              ? inputContainerClassName
+              : "w-full flex flex-col justify-center items-center"
+          }
+        >
           <input
             type={type}
             name={name}
@@ -25,7 +32,7 @@ const InputField = ({
             className={
               className
                 ? className
-                : "w-11/12 bg-white rounded-full p-4 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
+                : "w-11/12 bg-white rounded-full p-3 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
             }
             placeholder={placeholder}
             onChange={onChange}
@@ -46,11 +53,20 @@ const InputField = ({
             className={
               className
                 ? className
-                : "w-11/12 bg-white rounded-full p-4 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
+                : "w-11/12 bg-white rounded-full p-3 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
             }
             placeholder={placeholder}
             onChange={onChange}
           />
+          {login && (
+            <a
+              href="/forget-password"
+              className="text-slate-600 text-base my-1"
+            >
+              Forget password?
+            </a>
+          )}
+
           <span className="text-base font-title text-textColor my-2">
             {errorMessage}
           </span>
@@ -69,7 +85,7 @@ const InputField = ({
             className={
               className
                 ? className
-                : "w-11/12 bg-white rounded-full p-4 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
+                : "w-11/12 bg-white rounded-full p-3 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
             }
             placeholder={placeholder}
             onChange={onChange}
@@ -90,7 +106,7 @@ const InputField = ({
             className={
               className
                 ? className
-                : "w-11/12 bg-white rounded-full p-4 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
+                : "w-11/12 bg-white rounded-full p-3 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
             }
             placeholder={placeholder}
             onChange={onChange}
@@ -103,8 +119,12 @@ const InputField = ({
       break;
     case "textarea":
       return (
-        <div 
-        className={inputContainerClassName?inputContainerClassName:"w-full flex flex-col justify-center items-center"}
+        <div
+          className={
+            inputContainerClassName
+              ? inputContainerClassName
+              : "w-full flex flex-col justify-center items-center"
+          }
         >
           <textarea
             type={type}
