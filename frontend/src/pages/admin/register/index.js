@@ -1,12 +1,8 @@
-import AppLayout from '@/components/UI/layout/app/AppLayout'
-import React from 'react'
+import AdminRegisterForm from "@/components/guest/AdminRegisterForm";
+import React from "react";
 
 const AdminRegisterPage = () => {
-  return (
-    <AppLayout>
-        
-    </AppLayout>
-  )
-}
+  return <AdminRegisterForm/>;
+};
 
-export default AdminRegisterPage
+export default AdminRegisterPage;

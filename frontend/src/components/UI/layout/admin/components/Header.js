@@ -31,10 +31,13 @@ const Header = ({ onToggleMenu, logo }) => {
             <IoIosNotifications className="text-3xl text-black text-center font-bold mx-3" />
           </div>
           <div className="w-[45px] h-[45px] border-2 border-slate-700 rounded-full flex justify-center items-center mx-2">
-            <FaMessage className="text-3xl text-black text-center font-bold mx-3" />
+            <FaMessage className="text-3xl text-black text-center font-bold mx-3 cursor-pointer"/>
           </div>
           <div className="w-[45px] h-[45px] border-2 border-slate-700 rounded-full flex justify-center items-center mx-2">
-            <CgProfile className="text-3xl text-black text-center font-bold" />
+            <CgProfile
+              className="text-3xl text-black text-center font-bold cursor-pointer"
+              onClick={signOut}
+            />
           </div>
         </div>
       </div>

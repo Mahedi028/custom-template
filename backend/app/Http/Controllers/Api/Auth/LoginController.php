@@ -25,21 +25,23 @@ class LoginController extends Controller
     {
         try {
             if (!(Auth::attempt($request->only('email', 'password')))) {
-                return $this->authResponse(null, null, 'Invalid email or password', null, 403);
+                return $this->authResponse(null, null, null, 'Invalid email or password', null, 403);
             }
             //create authenticated user
             $user = Auth::user();
             //email_verification_token is null or not
             if ($user->email_verified_at == null) {
-                return $this->authResponse(null, null, 'User Account not activated please check your email and activate your account to login', null, 403);
+                return $this->authResponse(null, null, null, 'User Account not activated please check your email and activate your account to login', null, 403);
             } else {
                 //create token
                 $token = $user->createToken('app')->plainTextToken;
+                //get user role information
+                $role = $user->roles->pluck("name")->first();
                 //send json response
-                return $this->authResponse($user, $token, 'logged in successfully', null, 200);
+                return $this->authResponse($user, $token, $role, 'logged in successfully', null, 200);
             }
         } catch (\Exception $e) {
-            return $this->authResponse(null, null, $e->getMessage(), $e, 400);
+            return $this->authResponse(null, null, null, $e->getMessage(), $e, 400);
         }
     } //end of method
 }

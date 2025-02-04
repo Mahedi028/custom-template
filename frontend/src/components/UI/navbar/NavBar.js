@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Button from "../button/Button";
 import NavItem from "./NavItem";
+import { useSession, signOut } from "next-auth/react";
+
 const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
+  //user session
+  const { data: session } = useSession();
   //set menu show
   const [showMenu, setShowMenu] = useState(false);
   //handle navigation
@@ -81,22 +85,36 @@ const Navigation = ({ siteTitle, siteLogo, profileImg, profileIcon }) => {
             </ul>
           </div>
           <div className="col-span-1 md:col-span-3 flex flex-col justify-center items-center">
-            <ul
-              className={
-                showMenu
-                  ? mobileMenuClass
-                  : "w-11/12 lg:flex justify-around items-center hidden"
-              }
-            >
-              {/* <NavItem name="Sign Up" link="/register" /> */}
-              {/* <NavItem name="Sign In" link="/login" /> */}
-              <a href="/register">
-                <Button text="Sign Up" />
-              </a>
-              <a href="/login">
-                <Button text="Sign In" />
-              </a>
-            </ul>
+            {session && session.user ? (
+              <ul
+                className={
+                  showMenu
+                    ? mobileMenuClass
+                    : "w-11/12 lg:flex justify-around items-center hidden"
+                }
+              >
+                <NavItem name="Profile" link="/user/profile" />
+                <Button text="Sign Out"  onClick={signOut}/>
+              </ul>
+            ) : (
+              <ul
+                className={
+                  showMenu
+                    ? mobileMenuClass
+                    : "w-11/12 lg:flex justify-around items-center hidden"
+                }
+              >
+                {/* <NavItem name="Sign Up" link="/register" /> */}
+                {/* <NavItem name="Sign In" link="/login" /> */}
+
+                <a href="/register">
+                  <Button text="Sign Up" />
+                </a>
+                <a href="/login">
+                  <Button text="Sign In" />
+                </a>
+              </ul>
+            )}
           </div>
         </div>
       </nav>

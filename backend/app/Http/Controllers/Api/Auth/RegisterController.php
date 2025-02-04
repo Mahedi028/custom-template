@@ -27,25 +27,35 @@ class RegisterController extends Controller
         //catch all frontend data
         $data = [];
         $email = $request->email;
+        $role = $request->role;
         $data['name'] = $request->input('name');
         $data['email'] = $request->input('email');
         $data['password'] = Hash::make($request->input('password'));
-        $data['phone_number'] = $request->input('phone_number');
+        $data['phone_number'] = $request->input('phone');
+
         try {
             $user = $this->auth->RegisterUser($data);
             //create token
             $token = $user->createToken('app')->plainTextToken;
             //send mail for email verification
             Mail::to($email)->send(new EmailVerification($user));
+            //assign a role
+            if ($role === 'admin') {
+                // assign a user role
+                $UserRole = $user->assignRole('admin');
+                //send response
+                return $this->authResponse($user, $token, $UserRole, ' successfully.please check your email for account activation', null, 200);
+            }
+            $userRole = $user->assignRole('user');
             //send register response
-            return $this->authResponse($user, $token, 'User registered successfully.please check your email for account activation', null, 200);
+            return $this->authResponse($user, $token, $userRole, 'User registered successfully.please check your email for account activation', null, 200);
         } catch (QueryException $e) {
             // Handle duplicate entry or other database errors
             if ($e->errorInfo[1] == 1062) {
-                return $this->authResponse(null, null, 'The email address is already in use', $e->getMessage(), 409);
+                return $this->authResponse(null, null, null, 'The email address is already in use', $e->getMessage(), 409);
             }
         } catch (\Exception $e) {
-            return $this->responseError('Error', 'Invalid Referral code', 401);
+            return $this->responseError('Error', $e->getMessage(), 401);
         }
     } //end of method
 

@@ -1,4 +1,4 @@
-import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
+import ResetPasswordForm from "@/components/guest/ResetPasswordForm";
 import AppLayout from "@/components/UI/layout/app/AppLayout";
 import React from "react";
 

@@ -1,4 +1,4 @@
-import ForgetPasswordForm from "@/components/auth/ForgetPasswordForm";
+import ForgetPasswordForm from "@/components/guest/ForgetPasswordForm";
 import AppLayout from "@/components/UI/layout/app/AppLayout";
 import React from "react";
 

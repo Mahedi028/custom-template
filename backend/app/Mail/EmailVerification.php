@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -13,12 +14,19 @@ class EmailVerification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    //use class variables
+    protected $user, $url;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
+        $generate=URL::temporarySignedRoute('verify-email', now()->addMinutes(30), ['email'=>$user->email]);
+        $app_url=config('app.url').':8000'.'/api/v1';
+        // $app_url=config('app.url').'/api/v1';
+        $this->url=str_replace($app_url, config('app.frontend_url'), $generate);
     }
 
     /**
@@ -49,5 +57,9 @@ class EmailVerification extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+    public function build()
+    {
+        return $this->from('example@gmail.com')->markdown('email-verification.email_verification', ['user'=>$this->user, 'url'=>$this->url]);
     }
 }

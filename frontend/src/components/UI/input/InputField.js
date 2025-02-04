@@ -43,6 +43,49 @@ const InputField = ({
         </div>
       );
       break;
+    case "email":
+      return (
+        <div
+          className={
+            inputContainerClassName
+              ? inputContainerClassName
+              : "w-full flex flex-col justify-center items-center"
+          }
+        >
+          <input
+            type={type}
+            name={name}
+            value={value}
+            className={
+              className
+                ? className
+                : "w-11/12 bg-white rounded-full p-3 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
+            }
+            placeholder={placeholder}
+            onChange={onChange}
+          />
+          <span className="text-base font-title text-textColor my-2">
+            {errorMessage}
+          </span>
+        </div>
+      );
+      break;
+    case "hidden":
+      return (
+        <input
+          type={type}
+          name={name}
+          value={value}
+          className={
+            className
+              ? className
+              : "w-11/12 bg-white rounded-full p-3 placeholder:text-black placeholder:font-title placeholder:font-semibold drop-shadow-md"
+          }
+          placeholder={placeholder}
+          onChange={onChange}
+        />
+      );
+      break;
     case "password":
       return (
         <div className="w-full flex flex-col justify-center items-center my-auto">

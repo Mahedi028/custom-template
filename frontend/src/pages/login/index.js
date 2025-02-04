@@ -1,13 +1,13 @@
-import LoginForm from '@/components/auth/LoginForm'
-import AppLayout from '@/components/UI/layout/app/AppLayout'
-import React from 'react'
+import LoginForm from "@/components/guest/LoginForm";
+import AppLayout from "@/components/UI/layout/app/AppLayout";
+import React from "react";
 
 const LoginPage = () => {
   return (
     <AppLayout>
-        <LoginForm title="Login"/>
+      <LoginForm title="Login" />
     </AppLayout>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;
