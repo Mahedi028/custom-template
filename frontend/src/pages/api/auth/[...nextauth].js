@@ -5,16 +5,56 @@ import CredentialsProvider from "next-auth/providers/credentials";
 const csrf = () => HttpService.get("/sanctum/csrf-cookie");
 
 export default async function auth(req, res) {
-
+  //backend api url
   const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-
+  //credentials
   const providers = [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: "Credentials",
-
       async authorize(credentials, req, res) {
-        //show user credentials
+        console.log("[credentials]", credentials)
+
+        //google sign in 
+        if(credentials && credentials.googleCallbackUrl){
+          //define google callback url
+          const url=credentials?.callbackUrl.replace("http://localhost:3000","http://127.0.0.1:8000/api/v1")
+          //get laravel csrf token
+          await csrf()
+
+          console.log("[url]", url)
+          //send login request to backend url:http://127.0.0.1:8000/api/v1/login
+          const response = await fetch(url, {
+                method: 'GET',
+                headers: {"Content-Type": "application/x-www-form-urlencoded",},
+                credentials: 'include',
+                withCredentials: true,
+              });
+          //if response is not ok then show error
+          if(!response.ok){
+            console.log('[response]', response.error)
+            if(response.status===403){
+              throw new Error(data.message || "Email verification required to access this resource.");
+            }else{
+              throw new Error(data.message || "Something went wrong");
+            }
+          }    
+
+          //extract user from response    
+          const user=await response?.json()
+          
+          console.log("[user-google]",user)
+          //if response is ok and find user then return user to authorize()
+          if(response.ok && user){
+
+            //return user send response this format
+            return {
+              status: 'success', 
+              userData: user
+            }
+          }
+        }
+        
         //get laravel csrf token
         await csrf();
 

@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import AuthCard from "../UI/card/AuthCard";
 import InputField from "../UI/input/InputField";
 import Button from "../UI/button/Button";
 import { useRouter } from "next/router";
 import CircleLoader from "../UI/loader/circle/CircleLoader";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
 import { useAuth } from "@/hooks/auth";
 const RegisterForm = () => {
   //use hook
@@ -24,7 +22,7 @@ const RegisterForm = () => {
     email: "",
     password: "",
     phone: "",
-    role:""
+    role: "",
   });
   //define errors
   const [errors, setErrors] = useState([]);
@@ -135,65 +133,46 @@ const RegisterForm = () => {
       {loading ? (
         <CircleLoader />
       ) : (
-        <div className="w-full grid grid-cols-12 justify-center items-center">
-          <div className="md:col-span-6 col-span-12 flex justify-center items-center mt-3">
-            <div className="md:w-[70%] w-11/12 h-[50vh] bg-gray-200 flex flex-col justify-center items-center gap-3 rounded-md drop-shadow-md">
-              <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
-                <FcGoogle className="text-3xl mx-2" />
-                <span>SIGN WITH GOOGLE</span>
-              </div>
-              <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
-                <FaFacebook className="text-3xl mx-2 text-blue-600" />
-                <span>SIGN WITH FACEBOOK</span>
-              </div>
-              <p className="text-slate-600 text-base my-2">
-                Already have an account?<a href="/login">Login</a>
-              </p>
-            </div>
-          </div>
-          <div className="md:col-span-6 col-span-12 flex justify-center items-center">
-            <AuthCard title="Register" onSubmit={handleSubmit}>
-              <InputField
-                type="text"
-                name="name"
-                value={inputValues.name}
-                onChange={handleInputChange}
-                placeholder="Enter username"
-                errorMessage={validationErrors.name}                
-              />
-              <InputField
-                type="text"
-                name="email"
-                value={inputValues.email}
-                onChange={handleInputChange}
-                placeholder="Enter email"
-                errorMessage={validationErrors.email}
-              />
-              <InputField
-                type="password"
-                name="password"
-                value={inputValues.password}
-                onChange={handleInputChange}
-                placeholder="Enter password"
-                errorMessage={validationErrors.password}
-              />
-              <InputField
-                type="text"
-                name="phone"
-                value={inputValues.phone}
-                onChange={handleInputChange}
-                placeholder="Enter phone number"
-                errorMessage={validationErrors.phone}
-              />
-              <InputField
-                type="hidden"
-                name="role"
-                value="user"
-              />
-              <Button type='submit' text="Register" />
-            </AuthCard>
-          </div>
-        </div>
+        <AuthCard
+          title="Register"
+          onSubmit={handleSubmit}
+          className="md:w-[35%] w-11/12 bg-gray-200 flex flex-col justify-center items-center gap-3 rounded-md drop-shadow-md"
+        >
+          <InputField
+            type="text"
+            name="name"
+            value={inputValues.name}
+            onChange={handleInputChange}
+            placeholder="Enter username"
+            errorMessage={validationErrors.name}
+          />
+          <InputField
+            type="text"
+            name="email"
+            value={inputValues.email}
+            onChange={handleInputChange}
+            placeholder="Enter email"
+            errorMessage={validationErrors.email}
+          />
+          <InputField
+            type="password"
+            name="password"
+            value={inputValues.password}
+            onChange={handleInputChange}
+            placeholder="Enter password"
+            errorMessage={validationErrors.password}
+          />
+          <InputField
+            type="text"
+            name="phone"
+            value={inputValues.phone}
+            onChange={handleInputChange}
+            placeholder="Enter phone number"
+            errorMessage={validationErrors.phone}
+          />
+          <InputField type="hidden" name="role" value="user" />
+          <Button type="submit" text="Register" />
+        </AuthCard>
       )}
     </>
   );

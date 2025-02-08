@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Interfaces\AuthInterface;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Carbon\Carbon;
 
 class SocialLoginController extends Controller
 {
@@ -46,9 +48,9 @@ class SocialLoginController extends Controller
         if (!is_null($validated)) {
             return $validated;
         }
+        //get social user information
+        $userSocial = Socialite::driver($provider)->stateless()->user();
         try {
-            //get social user information
-            $userSocial = Socialite::driver($provider)->stateless()->user();
             //social user email
             $email = $userSocial->getEmail();
             //check user email
@@ -60,17 +62,18 @@ class SocialLoginController extends Controller
                 $loginUser = Auth::user();
                 //assign access token and user data
                 $token = $user->createToken('app')->plainTextToken;
+                //user role
+                $userRole = $user->assignRole('user');
                 //send response
-                return $this->authResponse($loginUser, $token, 'User registered successfully.please check your email for account activation', null, 200);
+                return $this->authResponse($loginUser, $token, $userRole, 'User registered successfully.please check your email for account activation', null, 200);
             } else {
                 //check if user are not exist
                 $data = [];
                 $data['email'] = $userSocial->getEmail();
-                $data['email_verified_at'] = now();
-                $data['name'] = $userSocial->getName() === null ? 'no-name' : $userSocial->getNickname();
-                $data['password'] = '12345';
+                $data['email_verified_at'] = Carbon::now();
+                $data['name'] = $userSocial->getName() === null ? 'no-name' : $userSocial->getName();
+                $data['password'] = bcrypt(str()->random(16));
                 $data['phone_number'] = null;
-                $data['profile_photo_path'] = $userSocial->getAvatar();
                 //create user in user table
                 $userCreated = $this->auth->createUser($data);
                 //create provider in provider table
@@ -80,9 +83,10 @@ class SocialLoginController extends Controller
                         'provider_id' => $userSocial->getId(),
                     ],
                     [
-                        'avatar' => $userSocial->getAvatar()
+                        'avatar' => $userSocial->getAvatar()?$userSocial->getAvatar():'no-image'
                     ]
                 );
+                // return response()->json(['user'=>$userCreated]);
                 //check if social user provider record is stored
                 $userSocialAccount = $this->auth->socialUser($userCreated->id, $provider);
 
@@ -93,8 +97,10 @@ class SocialLoginController extends Controller
                     //assign access token and user data
                     $token = $user->createToken('app')->plainTextToken;
 
+                    //user role
+                    $userRole = $user->assignRole('user');
                     //send response
-                    return $this->authResponse($user, $token, 'User LoggedIn Successfully', null, 200);
+                    return $this->authResponse($user, $token,  $userRole, 'User LoggedIn Successfully', null, 200);
                 }
             }
         } catch (\Exception $e) {

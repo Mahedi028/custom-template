@@ -6,6 +6,9 @@ import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import CircleLoader from "../UI/loader/circle/CircleLoader";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
+import HttpService from "@/services/HttpService";
 const LoginForm = ({ title }) => {
   //use hook
   const { data: session } = useSession();
@@ -15,6 +18,8 @@ const LoginForm = ({ title }) => {
   const router = useRouter();
   //define loading
   const [loading, setLoading] = useState(false);
+  //get google-login redirect url
+  const [googleRedirectLoginUrl, setGoogleRedirectLoginUrl] = useState("");
   //define states
   const [inputValues, setInputValues] = useState({
     email: "",
@@ -127,6 +132,11 @@ const LoginForm = ({ title }) => {
       });
       setErrorMessage("");
     }
+
+    //send get request to backend and get google-callback-login redirect url
+    HttpService.get("/api/v1/login/google/redirect").then((res) => {
+      setGoogleRedirectLoginUrl(res?.data?.data);
+    });
   }, [router.query.message, errorMessage]);
 
   if (userType !== null && userType === "admin") {
@@ -137,36 +147,46 @@ const LoginForm = ({ title }) => {
         {loading && !session ? (
           <CircleLoader />
         ) : (
-          <AuthCard
-            onSubmit={handleSubmit}
-            title={title}
-            className="md:w-[35%] w-11/12 bg-gray-200 flex flex-col justify-center items-center gap-3 rounded-md drop-shadow-md"
-          >
-            <InputField
-              type="text"
-              name="email"
-              value={inputValues.email}
-              onChange={handleInputChange}
-              placeholder="Enter email"
-            />
-            <InputField
-              type="password"
-              name="password"
-              value={inputValues.password}
-              onChange={handleInputChange}
-              placeholder="Enter password"
-              login={true}
-            />
-
-            <Button
-              type="submit"
-              text="Login"
-              className="bg-black text-white border-4 border-btnOutline p-4  font-title rounded-full text-xl cursor-pointer uppercase font-semibold hover:px-7 transition:px duration-150 hover:shadow-customShadow"
-            />
-            <p className="text-slate-600 text-base my-2">
-              Don't have an account?<a href="/register">Create Account</a>
-            </p>
-          </AuthCard>
+          <div className="w-full grid grid-cols-12 justify-center items-center">
+            <div className="md:col-span-6 col-span-12 flex justify-center items-center mt-3">
+              <div className="md:w-[70%] w-11/12 h-[50vh] bg-gray-200 flex flex-col justify-center items-center gap-3 rounded-md drop-shadow-md">
+                <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
+                  <a href={googleRedirectLoginUrl} className="w-full flex justify-center items-center">
+                    <FcGoogle className="text-3xl mx-2" />
+                    <span>SIGN WITH GOOGLE</span>
+                  </a>
+                </div>
+                <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
+                  <FaFacebook className="text-3xl mx-2 text-blue-600" />
+                  <span>SIGN WITH FACEBOOK</span>
+                </div>
+                <p className="text-slate-600 text-base my-2">
+                  Don't have an account?<a href="/register">Create an account</a>
+                </p>
+              </div>
+            </div>
+            <div className="md:col-span-6 col-span-12 flex justify-center items-center">
+              <AuthCard title="Sign In With Email" onSubmit={handleSubmit}>
+                <InputField
+                  type="text"
+                  name="email"
+                  value={inputValues.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter email"
+                  errorMessage={validationErrors.email}
+                />
+                <InputField
+                  type="password"
+                  name="password"
+                  value={inputValues.password}
+                  onChange={handleInputChange}
+                  placeholder="Enter password"
+                  errorMessage={validationErrors.password}
+                />
+                <Button type="submit" text="Sign In" />
+              </AuthCard>
+            </div>
+          </div>
         )}
       </>
     );
