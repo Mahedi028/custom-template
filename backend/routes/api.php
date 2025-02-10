@@ -37,8 +37,6 @@ Route::prefix('v1')->group(function () {
     //social login
     Route::get('/login/{provider}/redirect', [SocialLoginController::class, 'redirectToProvider']);
     Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback']);
-
-
     //------------------------------Guest Routes  Ends------------------------------------------//
 
     //------------------------------Authenticated Routes Start------------------------------------------//

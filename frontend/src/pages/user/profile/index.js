@@ -16,6 +16,7 @@ const UserProfilePage = ({ user }) => {
 };
 
 export async function getServerSideProps(context) {
+  
   const session = await getSession({ req: context.req });
 
   if (!session) {

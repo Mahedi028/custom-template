@@ -5,7 +5,7 @@ import React from "react";
 const LoginPage = () => {
   return (
     <AppLayout>
-      <LoginForm title="Login" />
+      <LoginForm title="Login" showSocialLogin={true} />
     </AppLayout>
   );
 };

@@ -9,7 +9,7 @@ import CircleLoader from "../UI/loader/circle/CircleLoader";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import HttpService from "@/services/HttpService";
-const LoginForm = ({ title }) => {
+const LoginForm = ({ title, showSocialLogin }) => {
   //use hook
   const { data: session } = useSession();
   //get user type
@@ -141,32 +141,68 @@ const LoginForm = ({ title }) => {
 
   if (userType !== null && userType === "admin") {
     router.push("/admin/dashboard");
+  } else if (userType !== null && userType === "user") {
+    router.push("/user/profile");
   } else {
     return (
       <>
         {loading && !session ? (
           <CircleLoader />
         ) : (
-          <div className="w-full grid grid-cols-12 justify-center items-center">
-            <div className="md:col-span-6 col-span-12 flex justify-center items-center mt-3">
-              <div className="md:w-[70%] w-11/12 h-[50vh] bg-gray-200 flex flex-col justify-center items-center gap-3 rounded-md drop-shadow-md">
-                <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
-                  <a href={googleRedirectLoginUrl} className="w-full flex justify-center items-center">
-                    <FcGoogle className="text-3xl mx-2" />
-                    <span>SIGN WITH GOOGLE</span>
-                  </a>
+          <>
+            {showSocialLogin && (
+              <div className="w-full grid grid-cols-12 justify-center items-center">
+                <div className="md:col-span-6 col-span-12 flex justify-center items-center mt-3">
+                  <div className="md:w-[70%] w-11/12 h-[50vh] bg-gray-200 flex flex-col justify-center items-center gap-3 rounded-md drop-shadow-md">
+                    <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
+                      <a
+                        href={googleRedirectLoginUrl}
+                        className="w-full flex justify-center items-center"
+                      >
+                        <FcGoogle className="text-3xl mx-2" />
+                        <span>SIGN WITH GOOGLE</span>
+                      </a>
+                    </div>
+                    <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
+                      <FaFacebook className="text-3xl mx-2 text-blue-600" />
+                      <span>SIGN WITH FACEBOOK</span>
+                    </div>
+                    <p className="text-slate-600 text-base my-2">
+                      Don't have an account?
+                      <a href="/register">Create an account</a>
+                    </p>
+                  </div>
                 </div>
-                <div className="w-4/5 bg-white flex justify-center items-center py-3 rounded-lg">
-                  <FaFacebook className="text-3xl mx-2 text-blue-600" />
-                  <span>SIGN WITH FACEBOOK</span>
+                <div className="md:col-span-6 col-span-12 flex justify-center items-center">
+                  <AuthCard title="Sign In With Email" onSubmit={handleSubmit}>
+                    <InputField
+                      type="text"
+                      name="email"
+                      value={inputValues.email}
+                      onChange={handleInputChange}
+                      placeholder="Enter email"
+                      errorMessage={validationErrors.email}
+                    />
+                    <InputField
+                      type="password"
+                      name="password"
+                      value={inputValues.password}
+                      onChange={handleInputChange}
+                      placeholder="Enter password"
+                      errorMessage={validationErrors.password}
+                    />
+                    <Button type="submit" text="Sign In" />
+                  </AuthCard>
                 </div>
-                <p className="text-slate-600 text-base my-2">
-                  Don't have an account?<a href="/register">Create an account</a>
-                </p>
               </div>
-            </div>
-            <div className="md:col-span-6 col-span-12 flex justify-center items-center">
-              <AuthCard title="Sign In With Email" onSubmit={handleSubmit}>
+            )}
+
+            <div className="w-full justify-center items-center">
+              <AuthCard
+                title="Sign In With Email"
+                onSubmit={handleSubmit}
+                className="md:w-[35%] w-11/12 bg-gray-200 flex flex-col justify-center items-center gap-3 rounded-md drop-shadow-md"
+              >
                 <InputField
                   type="text"
                   name="email"
@@ -186,7 +222,7 @@ const LoginForm = ({ title }) => {
                 <Button type="submit" text="Sign In" />
               </AuthCard>
             </div>
-          </div>
+          </>
         )}
       </>
     );

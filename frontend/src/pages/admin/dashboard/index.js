@@ -1,26 +1,26 @@
 import AdminLayout from "@/components/UI/layout/admin/AdminLayout";
 import React from "react";
 import Dashboard from "@/components/admin/dashboard/Dashboard";
-import { getSession } from 'next-auth/react'
+import { getSession } from "next-auth/react";
 
 //laravel api url
 const api = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-
-const DashboardPage = ({user}) => {
+const DashboardPage = ({ user }) => {
   return (
     <AdminLayout>
-      <Dashboard user={user}/>
+      <Dashboard user={user} />
     </AdminLayout>
   );
 };
 
-
 export async function getServerSideProps(context) {
   //get session
   const session = await getSession({ req: context.req });
+  //get user type
+  const userType = session?.user?.userData?.role || null;
   //check if session is already available or not
-  if (!session) {
+  if (!session && userType!=="admin") {
     return {
       redirect: {
         destination: "/admin/login",

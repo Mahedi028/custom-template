@@ -1,7 +1,6 @@
 import React, {useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
-import HttpService from "@/services/HttpService";
 import AppLayout from "@/components/UI/layout/app/AppLayout";
 import CircleLoader from "@/components/UI/loader/circle/CircleLoader";
 import { toast } from "react-toastify";
@@ -60,7 +59,7 @@ const GoogleSignInPage = () => {
   }, [router?.query]);
 
   if (session && session?.user) {
-    router.push("/");
+    router.push("/user/profile");
   }
   return (
     <AppLayout>

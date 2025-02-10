@@ -67,10 +67,11 @@ class SocialLoginController extends Controller
                 //send response
                 return $this->authResponse($loginUser, $token, $userRole, 'User registered successfully.please check your email for account activation', null, 200);
             } else {
+                $now=Carbon::now();
                 //check if user are not exist
                 $data = [];
                 $data['email'] = $userSocial->getEmail();
-                $data['email_verified_at'] = Carbon::now();
+                $data['email_verified_at'] = $now;
                 $data['name'] = $userSocial->getName() === null ? 'no-name' : $userSocial->getName();
                 $data['password'] = bcrypt(str()->random(16));
                 $data['phone_number'] = null;
@@ -86,17 +87,14 @@ class SocialLoginController extends Controller
                         'avatar' => $userSocial->getAvatar()?$userSocial->getAvatar():'no-image'
                     ]
                 );
-                // return response()->json(['user'=>$userCreated]);
                 //check if social user provider record is stored
                 $userSocialAccount = $this->auth->socialUser($userCreated->id, $provider);
 
                 if ($userSocialAccount) {
                     //retrieve the user from users store
                     $user = $this->auth->findSocialUser($userSocialAccount->user_id);
-
                     //assign access token and user data
                     $token = $user->createToken('app')->plainTextToken;
-
                     //user role
                     $userRole = $user->assignRole('user');
                     //send response
