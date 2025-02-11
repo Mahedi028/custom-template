@@ -1,8 +1,7 @@
 import UserProfile from "@/components/auth/user/UserProfile";
 import AppLayout from "@/components/UI/layout/app/AppLayout";
 import React from "react";
-import { getSession } from 'next-auth/react'
-
+import { getSession } from "next-auth/react";
 
 //laravel api url
 const api = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -16,21 +15,22 @@ const UserProfilePage = ({ user }) => {
 };
 
 export async function getServerSideProps(context) {
-  
+  //get user session
   const session = await getSession({ req: context.req });
-
-  if (!session) {
+  //get user type
+  const userType = session?.user?.userData?.role || null;
+  //check session exists or not
+  if (session && userType !== "user") {
     return {
       redirect: {
         destination: "/login",
-        permanent: false,
+        permanent: true,
       },
     };
   }
 
   //extract token from session
   const token = session?.user?.userData?.token;
-
   // const res = await fetch("http://127.0.0.1:8000/api/v1/user", {
   const res = await fetch(`${api}/api/v1/user`, {
     method: "GET",
@@ -40,9 +40,9 @@ export async function getServerSideProps(context) {
     },
     credentials: "include",
   });
-
+  //extract user information
   const user = await res?.json();
-
+  //return user
   return {
     props: {
       session,

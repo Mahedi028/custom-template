@@ -20,11 +20,11 @@ export async function getServerSideProps(context) {
   //get user type
   const userType = session?.user?.userData?.role || null;
   //check if session is already available or not
-  if (!session && userType!=="admin") {
+  if (session && userType!=="admin") {
     return {
       redirect: {
         destination: "/admin/login",
-        permanent: false,
+        permanent: true,
       },
     };
   }

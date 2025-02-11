@@ -62,10 +62,10 @@ class SocialLoginController extends Controller
                 $loginUser = Auth::user();
                 //assign access token and user data
                 $token = $user->createToken('app')->plainTextToken;
-                //user role
-                $userRole = $user->assignRole('user');
+                //get user role
+                $role = $user->roles->pluck("name")->first();
                 //send response
-                return $this->authResponse($loginUser, $token, $userRole, 'User registered successfully.please check your email for account activation', null, 200);
+                return $this->authResponse($loginUser, $token, $role, 'User registered successfully.please check your email for account activation', null, 200);
             } else {
                 $now=Carbon::now();
                 //check if user are not exist
@@ -97,8 +97,10 @@ class SocialLoginController extends Controller
                     $token = $user->createToken('app')->plainTextToken;
                     //user role
                     $userRole = $user->assignRole('user');
+                    //get user role
+                    $role = $user->roles->pluck("name")->first();
                     //send response
-                    return $this->authResponse($user, $token,  $userRole, 'User LoggedIn Successfully', null, 200);
+                    return $this->authResponse($user, $token, $role , 'User LoggedIn Successfully', null, 200);
                 }
             }
         } catch (\Exception $e) {
